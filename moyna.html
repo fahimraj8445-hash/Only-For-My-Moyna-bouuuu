@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Happy New Year Keya</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #1a001a, #000);
+  font-family: 'Noto Serif Bengali', serif;
+  color: white;
+  overflow: hidden;
+}
+
+/* INTRO */
+#intro {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  cursor: pointer;
+}
+
+#intro h1 {
+  color: #ff99cc;
+  font-size: 26px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+/* STARS */
+.stars {
+  position: fixed;
+  inset: 0;
+  background: url('https://i.imgur.com/7b1GZ7G.png');
+  animation: moveStars 80s linear infinite;
+  opacity: 0.25;
+}
+
+@keyframes moveStars {
+  from { background-position: 0 0; }
+  to { background-position: 10000px 5000px; }
+}
+
+/* CARD */
+.card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 35px;
+  max-width: 420px;
+  margin: auto;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(255,105,180,0.6);
+  animation: fadeIn 3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+  color: #ffb3d9;
+  margin-bottom: 10px;
+}
+
+#countdown {
+  margin: 15px 0 25px;
+  font-size: 20px;
+  color: #ffd6ea;
+}
+
+p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #f5e6f0;
+}
+
+.signature {
+  margin-top: 25px;
+  font-size: 15px;
+  color: #ff99cc;
+}
+
+/* FIREWORKS */
+.firework {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: pink;
+  border-radius: 50%;
+  animation: explode 1.5s linear forwards;
+}
+
+@keyframes explode {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(8); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div id="intro" onclick="startExperience()">
+  <h1>Tap to Enter ✨</h1>
+</div>
+
+<div class="stars"></div>
+
+<div class="card" style="display:none" id="mainCard">
+  <h2>Keya, 🤍</h2>
+
+  <div id="countdown">New Year আসছে…</div>
+
+  <p>
+    নতুন বছর শুরু হচ্ছে,<br>
+    আর আমার অনুভূতিগুলো<br>
+    শুরু হয় তোমার নাম দিয়েই।<br><br>
+
+    Keya,<br>
+    এই নতুন বছরে অনেক কিছু বদলাবে জানি,<br>
+    কিন্তু একটা জিনিস যেন না বদলায়—<br>
+    তুমি আমার মনে যেভাবে থাকো।<br><br>
+
+    তুমি আমার গল্পের সবচেয়ে সুন্দর অংশ।
+  </p>
+
+  <div class="signature">
+    🎉 Happy New Year 🤍<br>
+    — কেউ একজন, যে তোমাকে খুব যত্নে দেখে
+  </div>
+</div>
+
+<audio id="music" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5c4b7c71c5.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function startExperience() {
+  document.getElementById("intro").style.display = "none";
+  document.getElementById("mainCard").style.display = "block";
+  document.getElementById("music").play();
+  setInterval(createFirework, 800);
+}
+
+function createFirework() {
+  const fw = document.createElement("div");
+  fw.className = "firework";
+  fw.style.left = Math.random() * window.innerWidth + "px";
+  fw.style.top = Math.random() * window.innerHeight + "px";
+  document.body.appendChild(fw);
+  setTimeout(() => fw.remove(), 1500);
+}
+
+// COUNTDOWN
+const newYear = new Date("January 1, 2026 00:00:00").getTime();
+setInterval(() => {
+  const now = new Date().getTime();
+  const d = newYear - now;
+  if (d < 0) {
+    document.getElementById("countdown").innerHTML = "🎆 Happy New Year, Keya 🤍";
+    return;
+  }
+  const days = Math.floor(d / (1000 * 60 * 60 * 24));
+  const h = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const m = Math.floor((d % (1000 * 60 * 60)) / (1000 * 60));
+  const s = Math.floor((d % (1000 * 60)) / 1000);
+  document.getElementById("countdown").innerHTML =
+    `${days}d ${h}h ${m}m ${s}s`;
+}, 1000);
+</script>
+
+</body>
+</html>
